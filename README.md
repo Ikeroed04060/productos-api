@@ -1,45 +1,38 @@
-📌 Prueba Técnica – API de Productos (Spring Boot + PostgreSQL + Frontend JS)
+# Prueba Técnica – API de Productos (Spring Boot + PostgreSQL + Frontend JS)
 
-Este proyecto implementa una API REST para gestionar productos, cumpliendo todos los requerimientos de la prueba técnica.
+## Descripción General
+
+Este proyecto implementa una API REST para gestionar productos, cumpliendo todos los requisitos de la prueba técnica.
 Incluye:
 
-Backend con Spring Boot 3, Java 17 y PostgreSQL
+- Backend con Spring Boot 3, Java 17 y PostgreSQL
+- Frontend simple con HTML + JavaScript
+- Validaciones y manejo global de excepciones
+- Uso de ENUM para categorías
+- Colección Postman con todas las pruebas solicitadas
 
-Frontend simple con HTML + JavaScript
+## Funcionalidades Principales
 
-Validaciones, excepciones globales y estructuras limpias
+### CRUD Completo
+- Crear producto
+- Listar productos
+- Obtener producto por ID
+- Actualizar producto por ID
+- Eliminar producto por ID
 
-Colección Postman con pruebas organizadas
-
-🟩 🛠️ Funcionalidades principales
-✔ CRUD completo
-
-Crear producto
-
-Listar productos
-
-Obtener producto por ID
-
-Actualizar producto
-
-Eliminar producto
-
-✔ Venta de producto (restar stock)
+### Venta de Producto (restar stock)
 PATCH /productos/{id}/vender?cantidad=n
 
-✔ Búsqueda por categoría
+### Búsqueda por Categoría
 GET /productos/categoria/{categoria}
 
-
 Categorías válidas (ENUM):
+- TECNOLOGIA
+- ACCESORIOS
+- OFICINA
 
-TECNOLOGIA
+## Estructura del Proyecto
 
-ACCESORIOS
-
-OFICINA
-
-🟦 📌 Estructura del Proyecto
 api-productos/
  ├── src/main/java/com/evaluacion/productosapi
  │    ├── controller
@@ -47,19 +40,20 @@ api-productos/
  │    ├── repository
  │    ├── service
  │    │    └── exception
- │    ├── exception  ← GlobalExceptionHandler
+ │    ├── exception              (GlobalExceptionHandler)
  │    └── ProductosApiApplication.java
  │
  ├── src/main/resources
  │    └── application.properties
  │
  ├── frontend/
- │    └── index.html  ← interfaz visual
+ │    └── index.html            (Interfaz visual)
  │
  └── postman/
       └── productos-api.postman_collection.json
 
-🟩 🛢 Configuración de Base de Datos (PostgreSQL)
+## Configuración de Base de Datos (PostgreSQL)
+
 spring.datasource.url=jdbc:postgresql://localhost:5432/productosdb
 spring.datasource.username=postgres
 spring.datasource.password=1234
@@ -72,14 +66,13 @@ spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect
 
 logging.level.org.hibernate.SQL=DEBUG
 
-
-La base debe existir:
+Crear la base de datos:
 
 CREATE DATABASE productosdb;
 
-🟦 🛠️ Manejo Global de Excepciones
+## Manejo Global de Excepciones
 
-Todas las excepciones retornan respuestas estandarizadas:
+Ejemplo de respuesta:
 
 {
   "error": "Producto no encontrado",
@@ -87,85 +80,53 @@ Todas las excepciones retornan respuestas estandarizadas:
   "timestamp": "2025-11-19T16:00:12"
 }
 
+Excepciones controladas:
+- ProductoNoEncontradoException → 404
+- MethodArgumentTypeMismatchException (ENUM inválido) → 400
+- IllegalArgumentException → 400
+- Exception general → 500
 
-Controla:
+## Frontend Implementado (index.html)
 
-ProductoNoEncontradoException → 404
-
-MethodArgumentTypeMismatchException (ENUM inválido) → 400
-
-IllegalArgumentException → 400
-
-Excepción general → 500
-
-🟩 🌐 Frontend implementado (index.html)
-
-El frontend incluye:
-
-✔ Tabla de productos
-✔ Búsqueda por categoría usando un SELECT
-✔ Botón Mostrar todos los productos
-✔ Estilos CSS profesionales
-✔ Manejo visual de errores y éxito
+El frontend permite:
+- Mostrar todos los productos
+- Buscar productos por categoría mediante un SELECT
+- Botón para "Mostrar todos"
+- Tabla con estilos limpios y modernos
+- Manejo visual de errores y mensajes
+- Consumo del backend mediante fetch()
 
 Ubicación:
-
 frontend/index.html
 
+Cómo abrirlo:
+- Doble clic
+- Live Server (VS Code)
+- /static en Spring Boot
 
-Para abrirlo:
+## Pruebas con Postman
 
-Doble clic
-
-O con Live Server
-
-O desde Spring colocándolo en /static
-
-🟦 🧪 Pruebas con Postman (Colección incluida)
-
-La colección se encuentra en:
-
+Colección ubicada en:
 postman/productos-api.postman_collection.json
 
+Incluye:
+- Crear producto
+- Listar productos
+- Buscar por categoría
+- Obtener producto por ID
+- Actualizar producto
+- Vender producto
+- Eliminar producto
+- Error por ID no encontrado
+- Error por categoría inválida
 
-Incluye exactamente los mismos endpoints que aparecen en tu Postman:
+## Estado Final de la Solución
 
-✔ Crear producto
-✔ Listar productos
-✔ Listar producto por categoría
-✔ Obtener producto por ID
-✔ Actualizar producto por ID
-✔ Vender producto
-✔ Eliminar producto por ID
-✔ Prueba error ID
-✔ Prueba error categoría
-
-Esta colección permite validar:
-
-Comportamiento del CRUD
-
-Validaciones
-
-Manejo global de errores
-
-ENUM correcto
-
-Respuestas exitosas y fallidas
-
-🟩 🧨 Estado final de la solución
-
-La solución cumple todos los requisitos de la prueba técnica, incluyendo:
-
-✔ Código limpio
-
-✔ Buenas prácticas
-
-✔ Validaciones backend
-
-✔ Excepciones globales
-
-✔ Integración con PostgreSQL
-
-✔ Frontend funcional y pulido
-
-✔ Pruebas Postman organizadas
+- Código limpio y organizado
+- Buenas prácticas aplicadas
+- Validaciones implementadas
+- Excepciones globales unificadas
+- PostgreSQL configurado correctamente
+- Frontend funcional y mejorado visualmente
+- Colección Postman completa y organizada
+- Uso correcto del ENUM integrado con la API
