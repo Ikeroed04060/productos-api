@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Productos - Prueba Técnica</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2, h3 {
+      color: #333;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    table thead {
+      background: #2b7cff;
+      color: white;
+    }
+
+    table th, table td {
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    table tr:hover {
+      background: #f0f6ff;
+    }
+
+    select {
+      padding: 10px;
+      width: 250px;
+      border: 1px solid #bbb;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    button {
+      padding: 10px 18px;
+      background: #2b7cff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #1e5dcc;
+    }
+
+    #mensaje {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    hr {
+      margin: 25px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h2>Lista de Productos</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Cantidad Disponible</th>
+        </tr>
+      </thead>
+      <tbody id="tablaProductos"></tbody>
+    </table>
+
+    <hr>
+
+    <h3>Buscar productos por categoría</h3>
+
+
+    <select id="categoriaSelect">
+      <option value="">Seleccione una categoría</option>
+      <option value="TECNOLOGIA">TECNOLOGIA</option>
+      <option value="ACCESORIOS">ACCESORIOS</option>
+      <option value="OFICINA">OFICINA</option>
+    </select>
+
+    <button onclick="buscarPorCategoria()">Buscar</button>
+    <button onclick="cargarProductos()" style="background:#6c757d;">Mostrar todos</button>
+
+
+    <p id="mensaje"></p>
+  </div>
+
+  <script>
+    const API_URL = 'http://localhost:8080/productos';
+
+    window.onload = cargarProductos;
+
+    function cargarProductos() {
+      fetch(API_URL)
+        .then(response => response.json())
+        .then(data => mostrarProductos(data))
+        .catch(error => console.error('Error cargando productos:', error));
+    }
+
+    function mostrarProductos(productos) {
+      const tabla = document.getElementById('tablaProductos');
+      tabla.innerHTML = '';
+
+      productos.forEach(p => {
+        tabla.innerHTML += `
+          <tr>
+            <td>${p.id}</td>
+            <td>${p.nombre}</td>
+            <td>${p.precio.toLocaleString("es-CO")}</td>
+            <td>${p.cantidadDisponible}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function buscarPorCategoria() {
+      const categoria = document.getElementById('categoriaSelect').value;
+
+      if (categoria === '') {
+        mostrarMensaje('Seleccione una categoría.', true);
+        return;
+      }
+
+      fetch(`${API_URL}/categoria/${categoria}`)
+        .then(response => {
+          if (!response.ok) {
+            return response.json().then(err => {
+              throw new Error(err.detalle || 'Error inesperado');
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          mostrarProductos(data);
+          mostrarMensaje(`Mostrando resultados para categoría: ${categoria}`, false);
+        })
+        .catch(error => {
+          mostrarMensaje(error.message, true);
+        });
+    }
+
+    function mostrarMensaje(texto, esError) {
+      const msg = document.getElementById('mensaje');
+      msg.style.color = esError ? '#d9534f' : '#28a745';
+      msg.textContent = texto;
+    }
+  </script>
+
+</body>
+</html>
+
