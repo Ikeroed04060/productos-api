@@ -25,8 +25,9 @@ public class Producto {
     @Min(value = 0, message = "La cantidad disponible no puede ser negativa")
     private Integer cantidadDisponible;
 
+    @Enumerated(EnumType.STRING)
     @NotBlank(message = "La categoria debe ser obligatoria")
-    private String categoria;
+    private Categoria categoria;
 
     @Size(max = 255)
     private String descripcion;
@@ -34,7 +35,7 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, BigDecimal precio, Integer cantidadDisponible, String categoria, String descripcion) {
+    public Producto(Long id, String nombre, BigDecimal precio, Integer cantidadDisponible, Categoria categoria, String descripcion) {
         this.id = id;
         this.nombre = nombre;
         this.precio = precio;
@@ -77,11 +78,10 @@ public class Producto {
         this.cantidadDisponible = cantidadDisponible;
     }
 
-    public String getCategoria() {return categoria;}
-
-    public void setCategoria(String categoria) {this.categoria = categoria;}
-
     public String getDescripcion() {return descripcion;}
 
     public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
+
+    public Categoria getCategoria() {return categoria;}
+    public void setCategoria(Categoria categoria) {this.categoria = categoria;}
 }
