@@ -1,5 +1,6 @@
 package com.evaluacion.productosapi.controller;
 
+import com.evaluacion.productosapi.entity.Categoria;
 import com.evaluacion.productosapi.entity.Producto;
 import com.evaluacion.productosapi.service.ProductoService;
 import com.evaluacion.productosapi.service.exception.ProductoNoEncontradoException;
@@ -56,6 +57,16 @@ public class ProductoController {
                            @RequestParam int cantidad) {
         return productoService.vender(id, cantidad);
     }
+
+    @GetMapping("/categoria/{categoria}")
+    public ResponseEntity<List<Producto>> obtenerPorCategoria(@PathVariable String categoria) {
+
+        Categoria catEnum = Categoria.fromString(categoria);
+
+        return ResponseEntity.ok(productoService.obtenerPorCategoria(catEnum));
+    }
+
+
 
     // Manejo básico de errores (podrías extraer a @ControllerAdvice)
     @ExceptionHandler(ProductoNoEncontradoException.class)

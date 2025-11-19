@@ -1,10 +1,7 @@
 package com.evaluacion.productosapi.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
@@ -26,7 +23,7 @@ public class Producto {
     private Integer cantidadDisponible;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "La categoria debe ser obligatoria")
+    @NotNull(message = "La categoria debe ser obligatoria")
     private Categoria categoria;
 
     @Size(max = 255)
