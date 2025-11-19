@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
@@ -24,15 +25,22 @@ public class Producto {
     @Min(value = 0, message = "La cantidad disponible no puede ser negativa")
     private Integer cantidadDisponible;
 
+    @NotBlank(message = "La categoria debe ser obligatoria")
+    private String categoria;
+
+    @Size(max = 255)
+    private String descripcion;
+
     public Producto() {
     }
 
-    
-
-    public Producto(String nombre, BigDecimal precio, Integer cantidadDisponible) {
+    public Producto(Long id, String nombre, BigDecimal precio, Integer cantidadDisponible, String categoria, String descripcion) {
+        this.id = id;
         this.nombre = nombre;
         this.precio = precio;
         this.cantidadDisponible = cantidadDisponible;
+        this.categoria = categoria;
+        this.descripcion = descripcion;
     }
 
     // Getters y setters
@@ -68,4 +76,12 @@ public class Producto {
     public void setCantidadDisponible(Integer cantidadDisponible) {
         this.cantidadDisponible = cantidadDisponible;
     }
+
+    public String getCategoria() {return categoria;}
+
+    public void setCategoria(String categoria) {this.categoria = categoria;}
+
+    public String getDescripcion() {return descripcion;}
+
+    public void setDescripcion(String descripcion) {this.descripcion = descripcion;}
 }
